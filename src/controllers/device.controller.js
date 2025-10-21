@@ -1,4 +1,4 @@
-const DeviceModel = require('../models/device.model');
+import DeviceModel from '../models/device.model.js';
 
 // POST /api/devices
 async function createDevice(req, res) {
@@ -93,4 +93,4 @@ async function deleteDevice(req, res) {
     }
 };
 
-module.exports = { createDevice, getDevices, getSingleDevice, updateDevice, deleteDevice };
+export default { createDevice, getDevices, getSingleDevice, updateDevice, deleteDevice };

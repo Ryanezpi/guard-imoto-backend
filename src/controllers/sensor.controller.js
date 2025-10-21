@@ -1,4 +1,4 @@
-const SensorLog = require('../models/sensor.model');
+import SensorLog from '../models/sensor.model.js';
 
 // ✅ Create sensor log
 async function createSensorLog(req, res) {
@@ -77,7 +77,7 @@ async function deleteSensorLog(req, res) {
   }
 }
 
-module.exports = {
+export default {
   createSensorLog,
   getSensorLogsPaginated,
   getSensorLogById,

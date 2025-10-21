@@ -1,17 +1,17 @@
-// routes/user.routes.js
-const express = require('express');
-const router = express.Router();
-const multer = require('multer');
-const userController = require('../controllers/user.controller');
-const verifyAppToken = require('../middlewares/auth.middleware');
+import { Router } from 'express';
+import multer, { memoryStorage } from 'multer';
+import userController from '../controllers/user.controller.js';
+import verifyAppToken from '../middlewares/auth.middleware.js';
 
-router.use((req, res, next) => {
-  console.log('verify middleware reached');
-  verifyAppToken(req, res, next);
-});
+const router = Router();
+const { updateUserProfile } = userController;
 
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({ storage: memoryStorage() });
 
-router.put('/profile', upload.single('profile_picture'), userController.updateUserProfile);
+// Protected routes only
+router.use(verifyAppToken);
 
-module.exports = router;
+// User routes
+router.put('/profile', upload.single('profile_picture'), updateUserProfile);
+
+export default router;

@@ -1,8 +1,8 @@
-const admin = require('../utils/config/firebase');
-const User = require('../models/user.model');
-const { getStorage } = require('firebase-admin/storage');
-const path = require('path');
-const fs = require('fs');
+import admin from '../utils/config/firebase.js';
+import User from '../models/user.model.js';
+import { getStorage } from 'firebase-admin/storage';
+import { extname } from 'path';
+import fs from 'fs';
 
 // PUT /api/user/profile
 async function updateUserProfile(req, res) {
@@ -15,7 +15,7 @@ async function updateUserProfile(req, res) {
     if (req.file) {
       const storage = getStorage();
       const bucket = storage.bucket(process.env.FIREBASE_STORAGE_BUCKET);
-      const fileName = `profile_pictures/${firebase_uid}_${Date.now()}${path.extname(req.file.originalname)}`;
+      const fileName = `profile_pictures/${firebase_uid}_${Date.now()}${extname(req.file.originalname)}`;
       const fileUpload = bucket.file(fileName);
 
       // Upload to Firebase Storage
@@ -57,4 +57,4 @@ async function updateUserProfile(req, res) {
   }
 }
 
-module.exports = { updateUserProfile };
+export default { updateUserProfile };

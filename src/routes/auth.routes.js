@@ -1,11 +1,15 @@
-const express = require('express');
-const router = express.Router();
-const { registerUser, loginUser, logoutUser } = require('../controllers/auth.controller');
-const { verifyAppToken } = require('../middlewares/auth.middleware');
+import { Router } from 'express';
+import authController from '../controllers/auth.controller.js';
+import verifyAppToken from '../middlewares/auth.middleware.js';
 
-// Public route — no middleware needed yet
+const router = Router();
+const { registerUser, loginUser, logoutUser } = authController;
+
+// Public routes
 router.post('/register', registerUser);
 router.post('/login', loginUser);
+
+// Protected route
 router.post('/logout', verifyAppToken, logoutUser);
 
-module.exports = router;
+export default router;

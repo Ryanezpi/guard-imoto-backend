@@ -1,12 +1,23 @@
-const express = require('express');
-const router = express.Router();
-const deviceConfig =  require('../controllers/config.controller');
+import { Router } from 'express';
+import configController from '../controllers/config.controller.js';
+import verifyAppToken from '../middlewares/auth.middleware.js';
+
+const router = Router();
+const {
+  createDeviceConfig,
+  getDeviceConfigs,
+  getDeviceConfig,
+  updateDeviceConfig,
+  deleteDeviceConfig
+} = configController;
+
+// router.use(verifyAppToken);
 
 // CRUD endpoints
-router.post('/', deviceConfig.createDeviceConfig);
-router.get('/', deviceConfig.getDeviceConfigs);
-router.get('/:device_id', deviceConfig.getDeviceConfig);
-router.put('/:device_id', deviceConfig.updateDeviceConfig);
-router.delete('/:id', deviceConfig.deleteDeviceConfig);
+router.post('/', createDeviceConfig);
+router.get('/', getDeviceConfigs);
+router.get('/:device_id', getDeviceConfig);
+router.put('/:device_id', updateDeviceConfig);
+router.delete('/:id', deleteDeviceConfig);
 
-module.exports = router;
+export default router;

@@ -1,4 +1,5 @@
-const jwt = require('jsonwebtoken');
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
 
 async function verifyAppToken(req, res, next) {
   const header = req.headers.authorization;
@@ -8,7 +9,7 @@ async function verifyAppToken(req, res, next) {
   if (!token) return res.status(401).json({ error: "Invalid Authorization header" });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (err) {
@@ -17,4 +18,4 @@ async function verifyAppToken(req, res, next) {
   }
 }
 
-module.exports = { verifyAppToken };
+export default  verifyAppToken;

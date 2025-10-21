@@ -1,12 +1,23 @@
-// routes/sensorLogRoutes.js
-const express = require('express');
-const router = express.Router();
-const sensorLogController = require('../controllers/sensor.controller');
+import { Router } from 'express';
+import sensorController from '../controllers/sensor.controller.js';
+import verifyAppToken from '../middlewares/auth.middleware.js';
 
-router.post('/', sensorLogController.createSensorLog);
-router.get('/', sensorLogController.getSensorLogsPaginated);
-router.get('/:log_id', sensorLogController.getSensorLogById);
-router.get('/device/:device_id', sensorLogController.getSensorLogsByDevice);
-router.delete('/:log_id', sensorLogController.deleteSensorLog);
+const router = Router();
+const {
+  createSensorLog,
+  getSensorLogsPaginated,
+  getSensorLogById,
+  getSensorLogsByDevice,
+  deleteSensorLog
+} = sensorController;
 
-module.exports = router;
+// router.use(verifyAppToken);
+
+// Sensor routes
+router.post('/', createSensorLog);
+router.get('/', getSensorLogsPaginated);
+router.get('/:log_id', getSensorLogById);
+router.get('/device/:device_id', getSensorLogsByDevice);
+router.delete('/:log_id', deleteSensorLog);
+
+export default router;

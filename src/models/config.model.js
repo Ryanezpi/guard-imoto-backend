@@ -1,4 +1,4 @@
-const db = require('../../db');
+import db from '../../db.js';
 
 const DeviceConfig = {
   create: (data, callback) => {
@@ -43,4 +43,4 @@ const DeviceConfig = {
   }
 };
 
-module.exports = DeviceConfig;
+export default DeviceConfig;

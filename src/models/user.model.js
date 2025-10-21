@@ -1,4 +1,4 @@
-const db = require('../../db');
+import db from '../../db.js';
 
 const User = {
   create: (data, callback) => {
@@ -54,4 +54,4 @@ const User = {
     },
 };
 
-module.exports = User;
+export default User;

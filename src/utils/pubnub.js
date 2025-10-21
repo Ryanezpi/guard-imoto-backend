@@ -1,4 +1,8 @@
-const PubNub = require('pubnub');
+import PubNub from 'pubnub';
+import { config } from 'dotenv';
+import logPubNub  from './logging.js';
+
+config();
 
 const pubnub = new PubNub({
   publishKey: process.env.PUBNUB_PUBLISH_KEY,
@@ -6,22 +10,31 @@ const pubnub = new PubNub({
   uuid: 'guardimoto-server',
 });
 
-// Log connection status
+// 🔌 Connection and message event handling
 pubnub.addListener({
   status: function (statusEvent) {
     const category = statusEvent.category;
+
     if (category === 'PNConnectedCategory' || category === 'PNNetworkUpCategory') {
-      console.info(`✅ PubNub connected (category: ${category})`);
+      logPubNub(`Connected → category: ${category}`, '\x1b[32m'); // Green
+    } else if (category === 'PNNetworkDownCategory') {
+      logPubNub(`Network down → category: ${category}`, '\x1b[31m'); // Red
     } else {
-      console.debug('PubNub status:', category);
+      logPubNub(`Status: ${category}`, '\x1b[33m'); // Yellow
     }
   },
+
   message: function (msg) {
-    console.log('📡 PubNub message received:', msg.message);
+    const payload = typeof msg.message === 'object'
+      ? JSON.stringify(msg.message)
+      : msg.message;
+    logPubNub(`Message received → ${payload}`, '\x1b[36m'); // Cyan
   },
 });
 
-// 👇 Add this to actually connect
+// 📡 Connect to the desired channels
 pubnub.subscribe({ channels: ['server-status'] });
 
-module.exports = pubnub;
+logPubNub('Initialized and listening on channel: server-status', '\x1b[35m');
+
+export default pubnub;

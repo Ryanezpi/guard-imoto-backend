@@ -1,4 +1,4 @@
-const db = require('../../db');
+import db from '../../db.js';
 
 /**
  * Executes a database query and returns a Promise.
@@ -127,4 +127,4 @@ class DeviceModel {
     }
 }
 
-module.exports = DeviceModel;
+export default DeviceModel;

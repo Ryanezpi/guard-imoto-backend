@@ -1,8 +1,14 @@
-const express = require('express');
-const router = express.Router();
-const alertController = require('../controllers/alert.controller');
+import { Router } from 'express';
+import alertController from '../controllers/alert.controller.js';
+import verifyAppToken from '../middlewares/auth.middleware.js';
 
-router.post('/alerts', alertController.createAlert);
-router.get('/alerts/:id', alertController.getAlertsByDevice);
+const router = Router();
+const { createAlert, getAlertsByDevice } = alertController;
 
-module.exports = router;
+// router.use(verifyAppToken);
+
+// Alert routes
+router.post('/alerts', createAlert);
+router.get('/alerts/:id', getAlertsByDevice);
+
+export default router;

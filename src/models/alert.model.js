@@ -1,4 +1,4 @@
-const db = require('../../db');
+import db from '../../db.js';
 
 const Alert = {
   create: (data, callback) => {
@@ -26,4 +26,4 @@ const Alert = {
   }
 };
 
-module.exports = Alert;
+export default Alert;

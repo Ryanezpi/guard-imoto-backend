@@ -1,14 +1,13 @@
-const admin = require('firebase-admin');
+import admin from 'firebase-admin';
+import serviceAccount from './guard-imoto-project-firebase-adminsdk-fbsvc-6da6790360.json' with { type: 'json' };
 
-// Path to your service account key file
-const serviceAccount = require('./guard-imoto-project-firebase-adminsdk-fbsvc-6da6790360.json');
+// Initialize Firebase Admin SDK
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
 
+console.log('Firebase project:', admin.app().options.credential.projectId);
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
-
-console.log("Firebase project:", admin.app().options.credential.projectId);
-
-
-module.exports = admin;
+export default admin;

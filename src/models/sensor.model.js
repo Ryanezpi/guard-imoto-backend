@@ -1,4 +1,4 @@
-const db = require('../../db');
+import db from '../../db.js';
 
 const SensorLog = {
   create: (data, callback) => {
@@ -41,4 +41,4 @@ const SensorLog = {
   }
 };
 
-module.exports = SensorLog;
+export default SensorLog;

@@ -1,4 +1,4 @@
-const DeviceConfig = require('../models/config.model');
+import DeviceConfig from '../models/config.model.js';
 
 // Create new device configuration
 async function createDeviceConfig(req, res) {
@@ -77,7 +77,7 @@ async function getDeviceConfigs(req, res) {
   }
 }
 
-module.exports = {
+export default {
   createDeviceConfig,
   getDeviceConfig,
   updateDeviceConfig,

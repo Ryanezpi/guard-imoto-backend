@@ -1,5 +1,5 @@
-const Alert = require('../models/alert.model');
-const pubnub = require('../utils/pubnub');
+import Alert from '../models/alert.model.js';
+import pubnub from '../utils/pubnub.js';
 
 // ✅ Create alert + broadcast via PubNub
 async function createAlert(req, res) {
@@ -38,7 +38,7 @@ async function getAlertsByDevice(req, res) {
   }
 }
 
-module.exports = {
+export default {
   createAlert,
   getAlertsByDevice
 };

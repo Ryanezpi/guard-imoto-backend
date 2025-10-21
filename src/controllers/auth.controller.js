@@ -1,7 +1,9 @@
-const admin = require('../utils/config/firebase');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const User = require('../models/user.model');
+import admin from '../utils/config/firebase.js';
+import pkg from 'jsonwebtoken';
+import { hash } from 'bcryptjs';
+import User from '../models/user.model.js';
+
+const { sign } = pkg;
 
 const saltRounds = 10;
 
@@ -10,7 +12,7 @@ async function registerUser(req, res) {
   const { first_name, last_name, email, phone_number, password } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const hashedPassword = await hash(password, saltRounds);
 
     // Create Firebase user
     const firebaseUser = await admin.auth().createUser({
@@ -48,6 +50,12 @@ async function registerUser(req, res) {
   }
 }
 
+// ✅ LOGOUT USER
+async function logoutUser(req, res) {
+  // JWTs are stateless, so "logout" is client-side
+  res.status(200).json({ message: 'Logged out successfully' });
+}
+
 // ✅ LOGIN USER (Firebase token → verify → issue local JWT)
 async function loginUser(req, res) {
   try {
@@ -64,7 +72,7 @@ async function loginUser(req, res) {
         return res.status(500).json({ error: 'Database error' });
       }
 
-      const appToken = jwt.sign(
+      const appToken = sign(
         {
           uid,
           email,
@@ -85,11 +93,4 @@ async function loginUser(req, res) {
     res.status(401).json({ error: 'Invalid Firebase token' });
   }
 }
-
-// ✅ LOGOUT USER
-async function logoutUser(req, res) {
-  // JWTs are stateless, so "logout" is client-side
-  res.status(200).json({ message: 'Logged out successfully' });
-}
-
-module.exports = { registerUser, loginUser, logoutUser };
+export default { registerUser, loginUser, logoutUser };

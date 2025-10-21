@@ -1,17 +1,24 @@
-const express = require('express');
-const router = express.Router();
-const deviceController = require('../controllers/device.controller');
-const { verifyAppToken } = require('../middlewares/auth.middleware');
+import { Router } from 'express';
+import deviceController from '../controllers/device.controller.js';
+import verifyAppToken from '../middlewares/auth.middleware.js';
 
-router.use((req, res, next) => {
-  console.log('verify middleware reached');
-  verifyAppToken(req, res, next);
-});
+const router = Router();
+const {
+  createDevice,
+  getDevices,
+  getSingleDevice,
+  updateDevice,
+  deleteDevice
+} = deviceController;
 
-router.post('/', deviceController.createDevice);           // C: Create
-router.get('/', deviceController.getDevices);            // R: List with Pagination
-router.get('/:id', deviceController.getSingleDevice);    // R: Single
-router.put('/:id', deviceController.updateDevice);         // U: Update
-router.delete('/:id', deviceController.deleteDevice);      // D: Delete
+// Apply middleware globally to all routes
+// router.use(verifyAppToken);
 
-module.exports = router;
+// CRUD endpoints
+router.post('/', createDevice);
+router.get('/', getDevices);
+router.get('/:id', getSingleDevice);
+router.put('/:id', updateDevice);
+router.delete('/:id', deleteDevice);
+
+export default router;
