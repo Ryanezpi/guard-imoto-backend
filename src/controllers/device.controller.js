@@ -59,6 +59,12 @@ async function updateDevice(req, res) {
         const updated = await DeviceModel.update(deviceId, userId, req.body);
 
         if (updated) {
+            // Publish to PubNub
+            pubnub.publish({
+                channel: `device-status-${unique_serial_number}`,
+                message: { unique_serial_number, battery_level, gsm_signal },
+            });
+
             res.status(200).json({ message: "Device updated successfully." });
         } else {
             res.status(404).json({ message: "Device not found or not owned." });

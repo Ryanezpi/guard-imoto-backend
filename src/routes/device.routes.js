@@ -3,7 +3,10 @@ const router = express.Router();
 const deviceController = require('../controllers/device.controller');
 const { verifyAppToken } = require('../middlewares/auth.middleware');
 
-router.use(verifyAppToken);
+router.use((req, res, next) => {
+  console.log('verify middleware reached');
+  verifyAppToken(req, res, next);
+});
 
 router.post('/', deviceController.createDevice);           // C: Create
 router.get('/', deviceController.getDevices);            // R: List with Pagination
